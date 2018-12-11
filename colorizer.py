@@ -1,5 +1,5 @@
 from nn_model import model, node
-from colorizer_helper import load_image
+from colorizer_utils import load_image
 
 from PIL import Image
 
