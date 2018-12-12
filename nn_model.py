@@ -27,10 +27,11 @@ class model:
         out_h1 = sigmoid(out_h1)
         out_o = np.dot(out_h1, self.weights_o)
         out_o += self.bias_o
-        out_o = sigmoid(out_o)
+        out_o = sigmoid(out_o) * 256
 
         if training:
             loss = (np.sum(out_o - y)**2)
+            print(loss)
             self.update_output_layer(loss, out_h1, out_o)
             self.update_hidden_layer1(loss, x, out_o)
 

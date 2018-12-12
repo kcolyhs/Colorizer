@@ -59,5 +59,5 @@ class colorizer:
 
 if __name__ == '__main__':
     test = colorizer()
-    print(test.model.forward(test.X[0], test.Y[0]), training=True)
+    print(test.model.forward(test.X[0], test.Y[0], training=True))
     print("finished")
