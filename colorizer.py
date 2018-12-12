@@ -1,6 +1,7 @@
 from nn_model import model
 import numpy as np
 from PIL import Image
+from random import randint
 import os
 
 
@@ -59,5 +60,10 @@ class colorizer:
 
 if __name__ == '__main__':
     test = colorizer()
-    print(test.model.forward(test.X[0], test.Y[0], training=True))
+    trials = 10
+    for _ in range(trials):
+        i = randint(0,1)
+        print(f"trial#{_} using sample#{i}")
+        output, loss = test.model.forward(test.X[i], test.Y[i], training=True)
+    # print(test.model.forward(test.X[0], test.Y[0], training=True))
     print("finished")
