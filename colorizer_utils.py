@@ -27,6 +27,8 @@ def rgb_to_grayscale(data):
     Image.fromarray(gray).convert("RGB").show()
     return gray
 
+def get_sample(data):
+    return None
 
 im = load_image("./test.png")
 data = np.asarray( im, dtype="int32")
