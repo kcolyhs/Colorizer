@@ -3,23 +3,23 @@ from random import random
 
 
 class model:
-    """
-    """
-    def __init__(self, output_size = 3):
+    def __init__(self):
         self.alpha = 0.01
-        self.outputl = [nn_node.random_init(9) for x in range(0, output_size)]
-        self.hidden1 = [nn_node.random_init(5) for x in range(0, 9)]
-        self.weights_o = np.random.rand(output_size,9)
-        self.bias_o = np.random.rand(output_size)
-        self.weights_h1 = np.random.rand(9, 9)
+        input_size = 9
+        h1_out_size = 5
+        o_out_size = 3
+        self.weights_o = np.random.rand(o_out_size,h1_out_size)
+        self.bias_o = np.random.rand(o_out_size)
+        self.weights_h1 = np.random.rand(h1_out_size, input_size)
+        self.bias_h1 = np.random.rand(o_out_size)
 
     def next_training_sample(self):
         # TODO fetch random input
         pass
 
     def forward(self, input):
-        # Check input
-        pass
+        flat_input = input.flatten()
+
 
 
     def loss(output, actual):

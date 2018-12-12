@@ -25,8 +25,8 @@ class colorizer:
 
     def import_data(self, path):
         print("Importing training files:")
-        X = []
-        Y = []
+        X = np.empty((0,9),int)
+        Y = np.empty((0,3),int)
         for filename in os.listdir(path):
             print(f"Importing {filename}...")
             im = Image.open(path+filename)
@@ -35,12 +35,16 @@ class colorizer:
             gray = colorizer.rgb_to_grayscale(rgb_data)
             padded_gray = np.pad(gray, (1, 1), "constant", constant_values = 0)
             i_size, j_size = np.shape(gray)
+            im_X = np.empty((gray.size,9),int)
+            im_Y = np.empty((gray.size,3),int)
+            index = 0
             for i in range(i_size):
                 for j in range(j_size):
-                    X.append(padded_gray[i:i+3, j:j+3])
-                    Y.append(rgb_data[i, j, 0:3])
-
-
+                    im_X[index] = (padded_gray[i:i+3, j:j+3].flatten())
+                    im_Y[index] = (rgb_data[i, j, 0:3])
+                    index += 1
+            X = np.concatenate((X ,im_X))
+            Y = np.concatenate((Y ,im_Y))
             print  (f"Imported {filename}: {gray.size} samples imported")
         self.X = np.array(X)
         self.Y = np.array(Y)
@@ -59,4 +63,5 @@ class colorizer:
 
 
 if __name__ == '__main__':
-    model =  colorizer()
+    test =  colorizer()
+    print("finished")
