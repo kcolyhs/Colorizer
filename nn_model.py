@@ -19,7 +19,8 @@ class model:
 
     def forward(self, input):
         # Check input
-        
+        pass
+
 
     def loss(output, actual):
         error = (np.sum(output-actual)**2)
@@ -34,7 +35,7 @@ class model:
             for j in range(node.input_size):
                 in_k = node.weighted_sum
                 out_k = node.out
-                gradient = - self.alpha*(out_k*(1-out_k))  # * ?out_k
+                gradient = - self.alpha*(out_k*(1-out_k))*out_k  # * ?out_k
                 node.weights[j] -= gradient
             # node.bias = node.weight - self.alpha*(loss*(1-loss))
 
@@ -45,8 +46,8 @@ class nn_node:
         self.bias = None
         self.input_size = 0
         self.inputs = []
-        self.out
-        self.weighted_sum
+        self.out = None
+        self.weighted_sum = None
 
     @staticmethod
     def random_init(n):

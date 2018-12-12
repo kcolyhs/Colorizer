@@ -1,37 +1,49 @@
 from nn_model import model, nn_node
 import numpy as np
 from PIL import Image
+from random import randint
 import os
 
 class colorizer:
-    """
-    """
 
     def __init__(self):
         self.model = model()
-        self.image = colorizer.load_image("./test.png")
-        self.rgb_data = np.asarray(self.image, dtype="int32")
-        self.gray = colorizer.rgb_to_grayscale(self.rgb_data)
-        self.padded_gray = np.pad(self.gray, (1, 1), "constant", constant_values = 0)
+        self.import_data("./training/")
 
 
     def train(self):
         # get training data and grayscale image from utils
         for _ in range(10):
-            x = random.randint()
-            y = random.randint()
-            sample_gray = self.padded_gray[x:x+3, y:y+3]
-            sample_rgb = self.rgb_data[x,y]
+            #TODO implement
+            # sample_gray = None
+            # sample_rgb = self.rgb_data[x,y]
 
-            pred = model.forward(sample_gray)
-            loss = (np.sum(pred-sample_rgb)**2)
-            model.update_output_layer(loss)
+            # pred = model.forward(sample_gray)
+            # loss = (np.sum(pred-sample_rgb)**2)
+            # model.update_output_layer(loss)
+            pass
 
-    @staticmethod
-    def load_image(path):
-        im = Image.open(path)
-        im.load()
-        return im
+    def import_data(self, path):
+        print("Importing training files:")
+        X = []
+        Y = []
+        for filename in os.listdir(path):
+            print(f"Importing {filename}...")
+            im = Image.open(path+filename)
+            im.load()
+            rgb_data = np.asarray(im, dtype="int32")
+            gray = colorizer.rgb_to_grayscale(rgb_data)
+            padded_gray = np.pad(gray, (1, 1), "constant", constant_values = 0)
+            i_size, j_size = np.shape(gray)
+            for i in range(i_size):
+                for j in range(j_size):
+                    X.append(padded_gray[i:i+3, j:j+3])
+                    Y.append(rgb_data[i, j, 0:3])
+
+
+            print  (f"Imported {filename}: {gray.size} samples imported")
+        self.X = np.array(X)
+        self.Y = np.array(Y)
 
     @staticmethod
     def rgb_to_grayscale(data):
@@ -47,4 +59,4 @@ class colorizer:
 
 
 if __name__ == '__main__':
-    MODEL =  colorizer()
+    model =  colorizer()
