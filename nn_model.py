@@ -5,20 +5,21 @@ from random import random
 class model:
     """
     """
-    def __init__(self):
-        self.input
-        self.outputl = [nn_node.random_init(9) for x in range(0, 3)]
-        self.hidden1 = [nn_node.random_init(9) for x in range(0, 9)]
+    def __init__(self, output_size = 3):
         self.alpha = 0.01
-        self.weights_o = np.random.rand(3,9)
+        self.outputl = [nn_node.random_init(9) for x in range(0, output_size)]
+        self.hidden1 = [nn_node.random_init(5) for x in range(0, 9)]
+        self.weights_o = np.random.rand(output_size,9)
+        self.bias_o = np.random.rand(output_size)
         self.weights_h1 = np.random.rand(9, 9)
 
     def next_training_sample(self):
         # TODO fetch random input
         pass
 
-    def forward(self):
-        pass
+    def forward(self, input):
+        # Check input
+        
 
     def loss(output, actual):
         error = (np.sum(output-actual)**2)
