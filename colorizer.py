@@ -61,7 +61,7 @@ class colorizer:
 
 if __name__ == '__main__':
     test = colorizer()
-    trials = 1000
+    trials = 5000
     loss_history = []
     for _ in range(trials):
         i = randint(0,100)

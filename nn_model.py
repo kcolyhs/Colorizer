@@ -44,32 +44,27 @@ class model:
 
             # Update the output layer's weights
             in_size, out_size = self.weights_o.shape
+            # (1,6)
             g_prime_ink = np.ones((1, in_size))
+            # (3,6)
             modified_error_k = (error).reshape(3, 1)
             modified_error_k = np.matmul(modified_error_k, g_prime_ink)
+            # (3,6)
             gradient = 2*modified_error_k*out_h1_padded
+            # (6,3)
             gradient = self.alpha*gradient.T
             new_weights_o = self.weights_o - gradient
 
-            #Update the hidden layer's weights
-            self.update_hidden_layer1(y, x, out_o)
+            #Update the hidden layer's weights (10,5)
+            in_size, out_size = self.weights_h1.shape
+            g_prime_inj = out_h1_padded*(1-out_h1_padded)
             modified_error_j = np.dot(self.weights_o, modified_error_k)
-            g_prime_inj = out_h1*(1-out_h1)
-
+            for j in range(out_size):
+                # scalar
+                modified_error_j = np.dot(modified_error_k.T[j],self.weights_o[j])
+                for i in range(in_size):
+                    gradient_ij = 2*x_padded[i]*g_prime_inj[j]*modified_error_j
+                    self.weights_h1 -= self.alpha*gradient_ij
 
             self.weights_o = new_weights_o
         return out_o, loss
-
-    def update_hidden_layer1(self, y, out_i, out_j):
-        # TODO error back propagation
-        pass
-
-    def update_output_layer(self, y, out_j, out_k):
-        in_size, out_size = self.weights_o.shape
-        for k in range(out_size):
-            #modified error for k
-            modified_error = 2*(out_k[k]-y[k])
-            modified_error *= out_j
-
-            gradient = self.alpha*modified_error
-            self.weights_o[:, k] -= gradient
