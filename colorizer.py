@@ -60,10 +60,12 @@ class colorizer:
 
 if __name__ == '__main__':
     test = colorizer()
-    trials = 10
+    trials = 1000
+    loss_history = []
     for _ in range(trials):
-        i = randint(0,1)
+        i = randint(0,0)*100
         print(f"trial#{_} using sample#{i}")
         output, loss = test.model.forward(test.X[i], test.Y[i], training=True)
+        loss_history.append(loss)
     # print(test.model.forward(test.X[0], test.Y[0], training=True))
     print("finished")
