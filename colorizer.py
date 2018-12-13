@@ -2,6 +2,7 @@ from nn_model import model
 import numpy as np
 from PIL import Image
 from random import randint
+import matplotlib.pyplot as plt
 import os
 
 
@@ -63,9 +64,11 @@ if __name__ == '__main__':
     trials = 1000
     loss_history = []
     for _ in range(trials):
-        i = randint(0,0)*100
+        i = randint(0,100)
         print(f"trial#{_} using sample#{i}")
         output, loss = test.model.forward(test.X[i], test.Y[i], training=True)
         loss_history.append(loss)
     # print(test.model.forward(test.X[0], test.Y[0], training=True))
+    fig = plt.plot(loss_history)
+    plt.show()
     print("finished")

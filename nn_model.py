@@ -41,17 +41,23 @@ class model:
             error = (out_o - y)
             loss = 1/3*(np.sum(error**2))
             print(f"output:{out_o} y:{y} loss: {loss}")
+
+            # Update the output layer's weights
             in_size, out_size = self.weights_o.shape
-            g_prime = np.ones((1, in_size))
-            gradient = np.zeros(self.weights_o.shape)
-            modified_error = 2*(error).reshape(3,1)
-            gradient = np.matmul(modified_error, g_prime)
-            gradient *= out_h1_padded
+            g_prime_ink = np.ones((1, in_size))
+            modified_error_k = (error).reshape(3, 1)
+            modified_error_k = np.matmul(modified_error_k, g_prime_ink)
+            gradient = 2*modified_error_k*out_h1_padded
             gradient = self.alpha*gradient.T
-            self.weights_o -= gradient
+            new_weights_o = self.weights_o - gradient
 
+            #Update the hidden layer's weights
             self.update_hidden_layer1(y, x, out_o)
+            modified_error_j = np.dot(self.weights_o, modified_error_k)
+            g_prime_inj = out_h1*(1-out_h1)
 
+
+            self.weights_o = new_weights_o
         return out_o, loss
 
     def update_hidden_layer1(self, y, out_i, out_j):
