@@ -9,13 +9,16 @@ def sigmoid_derivative(x):
     return sigmoid(x)*(1-sigmoid(x))
 np.random.seed(1)
 
+
+input_size = 9
+h_out_size = 150
+o_out_size = 3
+
+
 class model:
     def __init__(self):
         self.alpha = 0.01
-        input_size = 9
-        h_out_size = 100
-        o_out_size = 3
-        self.weights_o = np.random.rand(h_out_size+1, o_out_size,)*64
+        self.weights_o = np.random.rand(h_out_size+1, o_out_size,)*32
         self.weights_h = 0.02*np.random.rand(input_size+1, h_out_size)-0.01
 
     def next_training_sample(self):
@@ -35,11 +38,11 @@ class model:
         if training:
             error = (out_o - y)
             loss = (np.sum(error**2))
-            print(f"output:{out_o} y:{y} loss: {loss}")
+            # print(f"output:{out_o} y:{y} loss: {loss}")
 
             # Update the output layer's weights
             mod_errk = error
-            gradk = 2*self.alpha*np.matmul(out_h_pad.reshape(101,1),
+            gradk = 2*self.alpha*np.matmul(out_h_pad.reshape(h_out_size+1,1),
                                               mod_errk.reshape(1,3))
             new_weights_o = self.weights_o - gradk
 
@@ -49,8 +52,10 @@ class model:
             mod_errj = np.dot(self.weights_o, mod_errk)
             mod_errj *=  g_prime_inj
             gradj = 2*self.alpha*np.matmul(x_pad.reshape(10,1),
-                                              mod_errj[1:].reshape(1,100))
+                                              mod_errj[1:].reshape(1,h_out_size))
             self.weights_h - gradj
 
             self.weights_o = new_weights_o
+        else:
+            loss = None
         return out_o, loss
