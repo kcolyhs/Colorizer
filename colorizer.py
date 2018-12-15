@@ -61,14 +61,36 @@ class colorizer:
 
 if __name__ == '__main__':
     test = colorizer()
-    trials = 100000
+
+    trials = 1000
+    epochs = 5
     loss_history = []
-    for _ in range(trials):
-        i = randint(0,1000)
-        print(f"trial#{_} using sample#{i}")
-        output, loss = test.model.forward(test.X[i], test.Y[i], training=True)
-        loss_history.append(loss)
+    epoch_history = []
+
+    for e in range(epochs):
+        epoch_avg = 0
+        for _ in range(trials):
+            i = randint(0,10000-1)
+            # print(f"trial#{_} using sample#{i}")
+            output, loss = test.model.forward(test.X[i], test.Y[i], training=True)
+            loss_history.append(loss)
+            epoch_avg += loss/trials
+        print(f"Avg loss for epoch#{e}: {epoch_avg}")
+        epoch_history.append(epoch_avg)
     # print(test.model.forward(test.X[0], test.Y[0], training=True))
-    fig = plt.plot(loss_history[10:])
+
+    y_pred = []
+    for i in range(test.X.shape[0]):
+            output= test.model.forward(test.X[i], test.Y[i], training=False)
+            output = output[0]
+            y_pred.append(output)
+            if i % 1000 is 1000:
+                print(i)
+    y_pred = np.array(y_pred)
+    y_pred = y_pred.reshape(220,318,3)
+    Image.fromarray(y_pred).convert("RGB").show()
+
+
+    fig = plt.plot(epoch_history[:])
     plt.show()
     print("finished")
