@@ -11,18 +11,6 @@ class colorizer:
         self.model = model()
         self.import_data("./training/")
 
-    def train(self):
-        # get training data and grayscale image from utils
-        for _ in range(10):
-            #TODO implement
-            # sample_gray = None
-            # sample_rgb = self.rgb_data[x,y]
-
-            # pred = model.forward(sample_gray)
-            # loss = (np.sum(pred-sample_rgb)**2)
-            # model.update_output_layer(loss)
-            pass
-
     def import_data(self, path):
         print("Importing training files:")
         X = np.empty((0, 9), int)
@@ -63,14 +51,14 @@ if __name__ == '__main__':
     test = colorizer()
 
     trials = 1000
-    epochs = 5
+    epochs = 1000
     loss_history = []
     epoch_history = []
 
     for e in range(epochs):
         epoch_avg = 0
         for _ in range(trials):
-            i = randint(0,10000-1)
+            i = randint(0,69960-1)
             # print(f"trial#{_} using sample#{i}")
             output, loss = test.model.forward(test.X[i], test.Y[i], training=True)
             loss_history.append(loss)
@@ -83,13 +71,17 @@ if __name__ == '__main__':
     for i in range(test.X.shape[0]):
             output= test.model.forward(test.X[i], test.Y[i], training=False)
             output = output[0]
+            output = np.floor(output)
             y_pred.append(output)
             if i % 1000 is 1000:
                 print(i)
     y_pred = np.array(y_pred)
-    y_pred = y_pred.reshape(220,318,3)
-    Image.fromarray(y_pred).convert("RGB").show()
-
+    y_pred = y_pred.reshape(318,220,3)
+    np.clip(y_pred, 0, 255, out=y_pred)
+    y_pred = y_pred.astype('uint8')
+    result = Image.fromarray(y_pred).convert("RGB")
+    result.show()
+    result.save("result.png")
 
     fig = plt.plot(epoch_history[:])
     plt.show()

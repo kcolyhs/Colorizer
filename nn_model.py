@@ -11,7 +11,7 @@ np.random.seed(1)
 
 
 input_size = 9
-h_out_size = 150
+h_out_size = 5
 o_out_size = 3
 
 
@@ -20,10 +20,6 @@ class model:
         self.alpha = 0.01
         self.weights_o = np.random.rand(h_out_size+1, o_out_size,)*32
         self.weights_h = 0.02*np.random.rand(input_size+1, h_out_size)-0.01
-
-    def next_training_sample(self):
-        # TODO fetch random input
-        pass
 
     def forward(self, x, y, training=False):
         # Hidden  layer
@@ -47,7 +43,6 @@ class model:
             new_weights_o = self.weights_o - gradk
 
             #Update the hidden layer's weights (10,5)
-
             g_prime_inj = out_h_pad*(1-out_h_pad)
             mod_errj = np.dot(self.weights_o, mod_errk)
             mod_errj *=  g_prime_inj
