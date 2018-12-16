@@ -11,7 +11,7 @@ np.random.seed(1)
 
 
 input_size = 9
-h_out_size = 5
+h_out_size = 100
 o_out_size = 3
 
 

@@ -43,7 +43,8 @@ class colorizer:
         gray = data[:, :, 0:3].dot(grayscale)
         gray = np.floor(gray)
         # gray = .3 * r + 0.55 * g + 0.15 * b
-        # Image.fromarray(gray).convert("RGB").show()
+        grayimage = Image.fromarray(gray).convert("RGB")
+        grayimage.save("gray.png")
         return gray
 
 
